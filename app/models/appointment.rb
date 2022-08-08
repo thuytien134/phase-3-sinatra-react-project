@@ -4,6 +4,7 @@ class Appointment < ActiveRecord::Base
 
     def appointment_info
         appointment= {
+            id: self.id,
             time: self.date_time,
             service: self.service,
             specialist_name:  self.specialist.name,

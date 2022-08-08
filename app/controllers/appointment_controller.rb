@@ -1,25 +1,27 @@
 class AppointmentController < ApplicationController
     
-    # get "/appointments/services" do
-    #     # binding.pry
-    #     service = Appointment.all
-    #     service.to_json
-    # end
     
     get "/appointments" do
-        # binding.pry
-        appointment = Appointment.all
+     
+        appointment =  Appointment.all.map{|a| a.appointment_info}
         appointment.to_json
       end
     
       post "/appointments" do
-        appointment = Appointment.create(
+         if Customer.all.find_by(name: params[:customer_name])
+            customer_id = Customer.all.find_by(name: params[:customer_name]).id
+        else
+          Customer.create(name: params[:customer_name])
+          customer_id = Customer.all.find_by(name: params[:customer_name]).id
+        end
+        # binding.pry
+         appointment = Appointment.create(
           service: params[:service],
-          date_time: params[:date_time],
-          specialist_id: params[:specialist_id],
-          customer_id: params[:customer_id]
+          date_time: params[:time],
+          specialist_id: Specialist.all.find_by(name: params[:specialist_name]).id,
+          customer_id: customer_id
         )
-        appointment.to_json
+        params.to_json
     
       end
     
