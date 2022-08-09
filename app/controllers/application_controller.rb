@@ -4,7 +4,6 @@ class ApplicationController < Sinatra::Base
   # Add your routes here
   
     get "/services" do
-    # binding.pry
     service =  Specialist.all
     service.to_json
   end

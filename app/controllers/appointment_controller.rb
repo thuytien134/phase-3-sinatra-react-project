@@ -14,7 +14,7 @@ class AppointmentController < ApplicationController
           Customer.create(name: params[:customer_name])
           customer_id = Customer.all.find_by(name: params[:customer_name]).id
         end
-        # binding.pry
+       
          appointment = Appointment.create(
           service: params[:service],
           date_time: params[:time],
