@@ -5,8 +5,7 @@ class AppointmentController < ApplicationController
         specialist_id_arr =  Appointment.all.pluck(:specialist_id)
         specialist_id_most_appointment = specialist_id_arr.max_by {|i| specialist_id_arr.count(i)}
         Specialist.all.find(specialist_id_most_appointment).name.to_json
-        
-        # appointment.to_json
+     
       end
     
     post "/appointments" do
