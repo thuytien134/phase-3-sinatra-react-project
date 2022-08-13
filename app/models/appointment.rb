@@ -12,4 +12,5 @@ class Appointment < ActiveRecord::Base
         }
          appointment
     end
+    
 end

@@ -1,13 +1,15 @@
 class AppointmentController < ApplicationController
     
     
-    get "/appointments" do
-     
-        appointment =  Appointment.all.map{|a| a.appointment_info}
-        appointment.to_json
+    get "/specialist_has_most_appointments" do
+        specialist_id_arr =  Appointment.all.pluck(:specialist_id)
+        specialist_id_most_appointment = specialist_id_arr.max_by {|i| specialist_id_arr.count(i)}
+        Specialist.all.find(specialist_id_most_appointment).name.to_json
+        
+        # appointment.to_json
       end
     
-      post "/appointments" do
+    post "/appointments" do
          if Customer.all.find_by(name: params[:customer_name])
             customer_id = Customer.all.find_by(name: params[:customer_name]).id
         else
@@ -17,30 +19,30 @@ class AppointmentController < ApplicationController
        
          appointment = Appointment.create(
           service: params[:service],
-          date_time: params[:time],
+          date_time: params[:date_time],
           specialist_id: Specialist.all.find_by(name: params[:specialist_name]).id,
           customer_id: customer_id
         )
         params.to_json
     
-      end
+    end
+
     
-      patch "/appointments/:id" do
-        appointment = Appointment.find(params[:id])
-        appointment.update( service: params[:service],
-          date_time: params[:date_time],
-          specialist_id: params[:specialist_id],
-          customer_id: params[:customer_id]
+    patch "/appointments/:id" do
+      appointment = Appointment.find(params[:id])
+      appointment.update( 
+        service: params[:service],
+        date_time: params[:date_time]
         )
-        appointment.to_json
+      appointment.to_json
     
-      end
+    end
     
       delete "/appointments/:id" do
         appointment=Appointment.find(params[:id])
         appointment.destroy
         appointment.to_json
-      end
+    end
     
 
 end

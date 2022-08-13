@@ -7,5 +7,5 @@ class ApplicationController < Sinatra::Base
     service =  Specialist.all
     service.to_json
   end
-
+ 
 end
